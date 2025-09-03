@@ -109,6 +109,12 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Debug SSH connection
+        run: |
+          echo "Testing SSH connection to ${DEPLOY_USER}@${DEPLOY_HOST}"
+          echo "SSH_PRIVATE_KEY length: ${#SSH_PRIVATE_KEY}"
+          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 ${DEPLOY_USER}@${DEPLOY_HOST} "echo 'SSH connection successful'"
+
       - name: Ensure deploy path exists on server
         run: |
           ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${DEPLOY_HOST} "mkdir -p ${DEPLOY_PATH}"

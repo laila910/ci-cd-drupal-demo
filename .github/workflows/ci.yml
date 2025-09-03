@@ -7,7 +7,7 @@ on:
     branches: [ "**" ]
 
 env:
-  REGISTRY: yournameacr.azurecr.io
+  REGISTRY: cicddrupaldemo.azurecr.io
   IMAGE_NAME_PHP: ci-cd-drupal-demo-php
   IMAGE_NAME_NGINX: ci-cd-drupal-demo-nginx
   IMAGE_NAME_PHPMYADMIN: ci-cd-drupal-demo-phpmyadmin

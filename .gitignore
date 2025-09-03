@@ -1,3 +1,32 @@
+# Node/OS
+node_modules/
+.DS_Store
+Thumbs.db
+
+# Composer/Drupal
+vendor/
+src/drupal/web/sites/*/files/
+src/drupal/web/sites/*/private/
+src/drupal/web/sites/*/settings*.php
+src/drupal/web/sites/default/services*.yml
+
+# Aggregates and runtime
+src/drupal/web/sites/*/files/css/
+src/drupal/web/sites/*/files/js/
+src/drupal/web/sites/*/files/php/*
+src/drupal/web/sites/*/files/styles/*
+
+# Docker volumes and local db data
+db_data/
+
+# IDE
+.idea/
+.vscode/
+*.code-workspace
+
+# Logs
+**/*.log
+
 # Drupal specific
 src/drupal/
 sites/*/files/

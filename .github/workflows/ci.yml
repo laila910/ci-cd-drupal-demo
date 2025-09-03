@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME || '' }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN || '' }}
 
     permissions:
       contents: read
@@ -57,11 +60,11 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Login to Docker Hub (optional)
-        if: ${{ secrets.DOCKERHUB_USERNAME && secrets.DOCKERHUB_TOKEN }}
+        if: ${{ env.DOCKERHUB_USERNAME != '' && env.DOCKERHUB_TOKEN != '' }}
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_TOKEN }}
 
       - name: Build images
         run: |
@@ -70,12 +73,12 @@ jobs:
           docker build -t ci-cd-drupal-demo-phpmyadmin:ci ./app/phpmyadmin || echo "phpmyadmin not present or build failed, continuing"
 
       - name: Push images (optional when logged in)
-        if: ${{ secrets.DOCKERHUB_USERNAME && secrets.DOCKERHUB_TOKEN }}
+        if: ${{ env.DOCKERHUB_USERNAME != '' && env.DOCKERHUB_TOKEN != '' }}
         run: |
-          docker tag ci-cd-drupal-demo-php:ci ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-drupal-demo-php:ci
-          docker tag ci-cd-drupal-demo-nginx:ci ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-drupal-demo-nginx:ci
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-drupal-demo-php:ci
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-drupal-demo-nginx:ci
+          docker tag ci-cd-drupal-demo-php:ci ${{ env.DOCKERHUB_USERNAME }}/ci-cd-drupal-demo-php:ci
+          docker tag ci-cd-drupal-demo-nginx:ci ${{ env.DOCKERHUB_USERNAME }}/ci-cd-drupal-demo-nginx:ci
+          docker push ${{ env.DOCKERHUB_USERNAME }}/ci-cd-drupal-demo-php:ci
+          docker push ${{ env.DOCKERHUB_USERNAME }}/ci-cd-drupal-demo-nginx:ci
 
       - name: Archive project as artifact
         run: |
